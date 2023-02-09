@@ -1,37 +1,20 @@
 import { Button } from "./Button";
+import { calculateButtons } from "./calculate";
 
-export const ButtonPannel = () => {
-  return (
-    <div className="button-panel">
-      <div>
-        <Button type="function" name="AC" />
-        <Button type="function" name="+/-" />
-        <Button type="function" name="%" />
-        <Button type="operator" name="÷" />
-      </div>
-      <div>
-        <Button type="digit" name="7" />
-        <Button type="digit" name="8" />
-        <Button type="digit" name="9" />
-        <Button type="operator" name="x" />
-      </div>
-      <div>
-        <Button type="digit" name="4" />
-        <Button type="digit" name="5" />
-        <Button type="digit" name="6" />
-        <Button type="operator" name="-" />
-      </div>
-      <div>
-        <Button type="digit" name="1" />
-        <Button type="digit" name="2" />
-        <Button type="digit" name="3" />
-        <Button type="operator" name="+" />
-      </div>
-      <div>
-        <Button type="digit" wide={true} name="0" />
-        <Button type="digit" name="," />
-        <Button type="operator" name="=" />
-      </div>
-    </div>
-  );
+type ButtonPannelProps = {
+  clickHandler: (value: string) => void;
 };
+
+export const ButtonPannel = ({ clickHandler }: ButtonPannelProps) => (
+  <div className="button-panel">
+    {calculateButtons?.map((button) => (
+      <Button
+        key={button.id}
+        type={button.type}
+        clickHandler={(value) => clickHandler(value)}
+        value={button.value}
+        wide={button.value === "0"}
+      />
+    ))}
+  </div>
+);
