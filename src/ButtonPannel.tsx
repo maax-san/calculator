@@ -1,20 +1,9 @@
-import { Button } from "./Button";
-import { calculateButtons } from "./calculate";
+import { Children, PropsWithChildren } from "react";
 
-type ButtonPannelProps = {
-  clickHandler: (value: string) => void;
-};
+type ButtonPannelProps = PropsWithChildren<{}>;
 
-export const ButtonPannel = ({ clickHandler }: ButtonPannelProps) => (
+export const ButtonPannel = ({ children }: ButtonPannelProps) => (
   <div className="button-panel">
-    {calculateButtons?.map((button) => (
-      <Button
-        key={button.id}
-        type={button.type}
-        clickHandler={(value) => clickHandler(value)}
-        value={button.value}
-        wide={button.value === "0"}
-      />
-    ))}
+    {children}
   </div>
 );

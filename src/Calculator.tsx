@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ButtonPannel } from "./ButtonPannel";
-import { calculate, calculatorData } from "./calculate";
+import { calculate, calculateButtons, calculatorData } from "./calculate";
 import { Screen } from "./Screen";
+import { Button } from "./Button";
 
 export const Calculator = () => {
   const [data, setData] = useState<calculatorData>({
@@ -17,7 +18,17 @@ export const Calculator = () => {
   return (
     <div className="calculator">
       <Screen value={data.total ?? 0} />
-      <ButtonPannel clickHandler={handleClick} />
+      <ButtonPannel>
+        {calculateButtons?.map((button) => (
+          <Button
+            key={button.id}
+            type={button.type}
+            clickHandler={(value) => handleClick(value)}
+            value={button.value}
+            wide={button.value === "0"}
+          />
+        ))}
+      </ButtonPannel>
     </div>
   );
 };

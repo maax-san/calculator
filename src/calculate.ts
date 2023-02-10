@@ -3,11 +3,9 @@ export type calculatorData = {
   next?: number | null;
   operation?: string | null;
 };
+
 /**
- * Given a button name and a calculator data dataect, return an updated
- * calculator data dataect.
- *
- * Calculator data dataect contains:
+ * Calculator data contains:
  *   total:String      the running total
  *   next:String       the next number to be operated on with the total
  *   operation:String  +, -, etc.
@@ -16,6 +14,7 @@ export const calculate = (
   data: calculatorData,
   buttonName: string
 ): calculatorData => {
+
   if (buttonName === "AC") {
     return {
       total: null,
@@ -30,17 +29,14 @@ export const calculate = (
     };
   }
 
-  if (data.total !== null && buttonName === "+/-") {
-    if (data.total) {
-      return {
-        total: -data.total,
-        next: null,
-        operation: null,
-      };
-    }
+  if (isOperator(buttonName) ) {
+
   }
 
-  if (data.total !== null && buttonName === "%") {
+  if (data.total && buttonName === "+/-") {
+    return {
+      total: -data.total,
+    };
   }
 
   return {
@@ -150,4 +146,8 @@ export const calculateButtons = [
 
 const isNumber = (item: any) => {
   return /[0-9]+/.test(item);
+};
+
+const isOperator = (value: string) => {
+  return ['+','-','=','÷','x'].includes(value)
 };
