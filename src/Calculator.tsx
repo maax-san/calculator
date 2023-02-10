@@ -6,10 +6,12 @@ import { Button } from "./Button";
 
 export const Calculator = () => {
   const [data, setData] = useState<calculatorData>({
-    total: 42,
+    total: 0,
     next: null,
     operation: null,
   });
+
+  let screenValue = data.next ? data.next : data.total ? data.total : 0;
 
   const handleClick = (buttonValue: string) => {
     setData(calculate(data, buttonValue));
@@ -17,7 +19,7 @@ export const Calculator = () => {
 
   return (
     <div className="calculator">
-      <Screen value={data.total ?? 0} />
+      <Screen value={screenValue} />
       <ButtonPannel>
         {calculateButtons?.map((button) => (
           <Button

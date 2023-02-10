@@ -24,17 +24,38 @@ export const calculate = (
   }
 
   if (isNumber(buttonName)) {
+    if (data.operation) {
+      return {
+        ...data,
+        next: parseInt(buttonName)
+      };
+    }
+
     return {
+      ...data,
       total: parseInt(buttonName),
     };
   }
 
-  if (isOperator(buttonName) ) {
+  if (isOperator(buttonName) && data.total) {
+    if (buttonName === '=' && data.next && data.operation) {
+      return {
+        ...data,
+        next: null,
+        operation: null,
+        total: operation(data.total, data.next, data.operation)
+      }
+    }
 
+    return {
+      ...data,
+      operation: buttonName,
+    }
   }
 
-  if (data.total && buttonName === "+/-") {
+  if (buttonName === "+/-" && data.total) {
     return {
+      ...data,
       total: -data.total,
     };
   }
@@ -45,6 +66,21 @@ export const calculate = (
     operation: null,
   };
 };
+
+const operation = (current: number, next: number, operation: string) => {
+  switch(operation) {
+    case '-':
+      return current - next;
+    case '+':
+      return current + next;
+    case 'x':
+      return current * next;
+    case '÷':
+      return current / next;
+    default:
+      throw new Error('invalid operation');
+  }
+}
 
 export const calculateButtons = [
   {
