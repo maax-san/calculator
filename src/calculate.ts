@@ -14,7 +14,6 @@ export const calculate = (
   data: calculatorData,
   buttonName: string
 ): calculatorData => {
-
   if (buttonName === "AC") {
     return {
       total: null,
@@ -25,32 +24,42 @@ export const calculate = (
 
   if (isNumber(buttonName)) {
     if (data.operation) {
+      let next = parseInt(buttonName);
+      if (data.next) {
+        next = parseInt(data.next.toString() + next.toString());
+      }
+
       return {
         ...data,
-        next: parseInt(buttonName)
+        next,
+      };
+    }
+
+    let total = parseInt(buttonName);
+    if (data.total) {
+      total = parseInt(data.total.toString() + total.toString());
+    }
+
+    return {
+      ...data,
+      total,
+    };
+  }
+
+  if (isOperator(buttonName) && data.total) {
+    if (buttonName === "=" && data.next && data.operation) {
+      return {
+        ...data,
+        next: null,
+        operation: null,
+        total: operation(data.total, data.next, data.operation),
       };
     }
 
     return {
       ...data,
-      total: parseInt(buttonName),
-    };
-  }
-
-  if (isOperator(buttonName) && data.total) {
-    if (buttonName === '=' && data.next && data.operation) {
-      return {
-        ...data,
-        next: null,
-        operation: null,
-        total: operation(data.total, data.next, data.operation)
-      }
-    }
-
-    return {
-      ...data,
       operation: buttonName,
-    }
+    };
   }
 
   if (buttonName === "+/-" && data.total) {
@@ -68,19 +77,19 @@ export const calculate = (
 };
 
 const operation = (current: number, next: number, operation: string) => {
-  switch(operation) {
-    case '-':
+  switch (operation) {
+    case "-":
       return current - next;
-    case '+':
+    case "+":
       return current + next;
-    case 'x':
+    case "x":
       return current * next;
-    case '÷':
+    case "÷":
       return current / next;
     default:
-      throw new Error('invalid operation');
+      throw new Error("invalid operation");
   }
-}
+};
 
 export const calculateButtons = [
   {
@@ -185,5 +194,5 @@ const isNumber = (item: any) => {
 };
 
 const isOperator = (value: string) => {
-  return ['+','-','=','÷','x'].includes(value)
+  return ["+", "-", "=", "÷", "x"].includes(value);
 };
