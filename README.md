@@ -1,3 +1,2 @@
-# calculator training/toy project
+## calculator training/toy project
 
-REACT/TS
