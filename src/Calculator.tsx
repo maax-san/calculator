@@ -11,15 +11,13 @@ export const Calculator = () => {
     operation: null,
   });
 
-  let screenValue = data.next ? data.next : data.total ? data.total : 0;
-
   const handleClick = (buttonValue: string) => {
     setData(calculate(data, buttonValue));
   };
 
   return (
     <div className="calculator">
-      <Screen value={screenValue} />
+      <Screen value={data.next || data.total || 0} />
       <ButtonPannel>
         {calculateButtons?.map((button) => (
           <Button
